@@ -1,9 +1,9 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 
 interface ParticipantProps {
   name: string;
-  onRemoveParticipant: () => void;
+  onRemoveParticipant: (participantName: string) => void;
 }
 
 export const Participant = ({
@@ -11,7 +11,16 @@ export const Participant = ({
   onRemoveParticipant,
 }: ParticipantProps) => {
   const handleRemoveParticipant = () => {
-    onRemoveParticipant();
+    Alert.alert("Remover", `Deseja remover o participante ${name}?`, [
+      {
+        text: "Sim",
+        onPress: () => onRemoveParticipant(name),
+      },
+      {
+        text: "Não",
+        style: "cancel",
+      },
+    ]);
   };
 
   return (

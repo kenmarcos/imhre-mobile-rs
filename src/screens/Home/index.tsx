@@ -43,8 +43,12 @@ export const Home = () => {
 
   const isParticipantInputEmpty = participantInput === "";
 
-  const removeParticipant = () => {
-    console.log("Remover Participante");
+  const removeParticipant = (participantName: string) => {
+    const participantListupdated = participants.filter(
+      (participant) => participant !== participantName
+    );
+
+    setParticipants(participantListupdated);
   };
 
   return (
