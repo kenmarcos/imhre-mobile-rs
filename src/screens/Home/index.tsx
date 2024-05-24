@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   // ScrollView,
   Text,
@@ -8,18 +9,39 @@ import {
 } from "react-native";
 import { styles } from "./styles";
 import { Participant } from "../../components/Participant";
+import { useState } from "react";
 
-const participants = [
-  "Marcos Kenji",
-  "Pedro Hirofumi",
-  "João Pedro",
-  "Vitor Hugo",
-];
+const participantList: string[] = [];
 
 export const Home = () => {
-  const handleAddParticipant = () => {
-    console.log("Adicionar Participante");
+  const [participants, setParticipants] = useState(participantList);
+  const [participantInput, setParticipantInput] = useState("");
+
+  const handleChangeParticipantInput = (text: string) => {
+    setParticipantInput(text);
   };
+
+  const handleAddParticipant = () => {
+    if (participants.includes(participantInput)) {
+      return Alert.alert(
+        "Participante existente",
+        "Ja existe um participante com esse nome."
+      );
+    }
+
+    if (participantInput === "") {
+      return Alert.alert(
+        "Participante vazio",
+        "Por favor, insira o nome do participante."
+      );
+    }
+
+    setParticipants((currentState) => [...currentState, participantInput]);
+
+    setParticipantInput("");
+  };
+
+  const isParticipantInputEmpty = participantInput === "";
 
   const removeParticipant = () => {
     console.log("Remover Participante");
@@ -37,9 +59,18 @@ export const Home = () => {
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
           keyboardType="default" // não necessário
+          onChangeText={handleChangeParticipantInput}
+          value={participantInput}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleAddParticipant}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            isParticipantInputEmpty ? styles.disabledButton : null,
+          ]}
+          onPress={handleAddParticipant}
+          disabled={isParticipantInputEmpty}
+        >
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>

@@ -40,6 +40,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  disabledButton: {
+    opacity: 0.4,
+  },
   buttonText: {
     color: "#FFF",
     fontSize: 24,
